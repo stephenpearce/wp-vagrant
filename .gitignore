@@ -1,6 +1,9 @@
 .vagrant/
-public_html/
-!public_html/.keep
-log/
-!log/.keep
+public_html/*
+log/*
 .DS_Store
+
+# Exceptions
+!log/apache2/.keep
+!log/mariadb/.keep
+!public_html/.keep
