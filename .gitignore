@@ -1,0 +1,6 @@
+.vagrant/
+public_html/
+!public_html/.keep
+log/
+!log/.keep
+.DS_Store
