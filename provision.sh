@@ -57,9 +57,10 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     tar xzvf latest.tar.gz
     sudo cp -a wordpress/. /var/www/html
 
-    echo "Set permissions..."
+    echo "Setting correct permissions for Wordpress..."
+    sudo find /var/www/html -type d -exec chmod 755 {} \;
+    sudo find /var/www/html -type f -exec chmod 644 {} \;
     sudo chown -R www-data:www-data /var/www/html
-    sudo chmod -R 755 /var/www/html
 
     echo "Set wp-config.php..."
     cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
