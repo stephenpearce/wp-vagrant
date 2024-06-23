@@ -1,6 +1,6 @@
 # wp-vagrant
 
-This repo provides a convenient Wordpress development environment. It's based on Ubuntu 22.04 with Apache as the web server, PHP 8.1 (with XDebug), MariaDB and PHPMyAdmin. Wordpress files are exposed to the public_html folder and won't be overwritten if you trash and rebuild the environment.
+This repo provides a Wordpress development environment on Vagrant. It's based on Ubuntu 22.04 with Apache as the web server, PHP 8.1 (with XDebug), MariaDB and PHPMyAdmin. Wordpress files are exposed to the `public_html/` folder and won't be overwritten if you trash and rebuild the environment.
 
 
 ## Prerequisites
@@ -24,14 +24,16 @@ This repo provides a convenient Wordpress development environment. It's based on
     vagrant up
     ```
 
-    This will download the Ubuntu box, create a headless virtual machine, and run the `provision.sh` script to set up the development environment.
+    This will download Ubuntu, create a headless virtual machine instance, and run the `provision.sh` script on it to set up the development environment.
 
-    Wordpress will be available at `public_html/`. Logs for Apache and Maria are mapped to `log/`.
+    Wordpress's files will then be available at `public_html/`.
+
+    Logs for Apache and MariaDB are mapped to `log/`.
 
 
 3. **Access the new Wordpress instance:**
 
-    Add `127.0.0.1 wordpress.local` to your `/etc/hosts` or windows equivilent hosts file.
+    Add `127.0.0.1 wordpress.local` to your `/etc/hosts` file (macOS | Linux) or `C:\Windows\System32\drivers\etc\hosts` file (Windows).
 
     Then you should be able to access it on the host at the address: `http://wordpress.local`.
 
@@ -40,7 +42,9 @@ This repo provides a convenient Wordpress development environment. It's based on
 
     Navigate to `http://wordpress.local/phpmyadmin` in your web browser.
 
-    The login credentials can be found in provision.sh. Don't use these in production!
+    Login credentials can be found in provision.sh.
+
+    Don't use these credentials or the default table prefixes in production!
 
 
 5. **Using Xdebug:**
@@ -52,22 +56,18 @@ This repo provides a convenient Wordpress development environment. It's based on
 
     If you need to destroy the box, then run `vagrant destroy`. This will destroy the VM and database, but not the Wordpress file structure. You'll need to delete that manually.
 
-    The provisioning script will keep Wordpress's file structure if detected.
+    The provisioning script will skip over the Wordpress download if an old `wp-config.php` is found.
 
 
 ## File Structure
 
 - `Vagrantfile`: Defines the virtual machine config.
 - `provision.sh`: Bash script which handles VM provisioning.
-- `public_html/`: Folder that contains the Wordpress file heirachy and is accessible from the host.
+- `public_html/`: Folder that contains the Wordpress file hierarchy and is accessible from the host.
 - `log/`: Folder where Apache2 and MariaDB logs from the VM are mapped.
 
 
-## Access
+## Access Notes
 
-- **SSH:**
-  - If you encounter any issues during provisioning, you can SSH into the VM with `vagrant ssh` poke around. I'd recommend using `mysqldump` from within the VM to dump the database later.
-
-- **Xdebug configuration:**
-  - Ensure your IDE is configured correctly to listen on port 9003.
-  - Verify the Xdebug config in `/etc/php/8.1/mods-available/xdebug.ini` inside the VM.
+  - If you encounter any issues, you can SSH into the VM with `vagrant ssh`.
+  - Use `mysqldump` from within the VM to dump the database.
